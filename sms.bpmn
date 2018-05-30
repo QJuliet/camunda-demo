@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0971fg1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+  <bpmn:process id="SMS" name="Slanje SMS-a" isExecutable="true">
+    <bpmn:startEvent id="StartSMS">
+      <bpmn:outgoing>SequenceFlow_1tupckk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndSMS">
+      <bpmn:incoming>SequenceFlow_0tgfskq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1tupckk" sourceRef="StartSMS" targetRef="ServiceTask_0fb7530" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tgfskq" sourceRef="IntermediateThrowEvent_1sd2ifo" targetRef="EndSMS" />
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1sd2ifo" name="Wait 30 minutes">
+      <bpmn:incoming>SequenceFlow_1apgw6r</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0tgfskq</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT30M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="ServiceTask_0fb7530" name="Initialize process" camunda:delegateExpression="${InitializeSMSPreprocessDelegate}">
+      <bpmn:incoming>SequenceFlow_1tupckk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1apgw6r</bpmn:outgoing>
+      <bpmn:property id="Property_15lv66z" name="__targetRef_placeholder" />
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1apgw6r" sourceRef="ServiceTask_0fb7530" targetRef="IntermediateThrowEvent_1sd2ifo" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SMS">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartSMS">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0l8rp9e_di" bpmnElement="EndSMS">
+        <dc:Bounds x="540" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="513" y="142" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tupckk_di" bpmnElement="SequenceFlow_1tupckk">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="296" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="207.5" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tgfskq_di" bpmnElement="SequenceFlow_0tgfskq">
+        <di:waypoint x="473" y="120" />
+        <di:waypoint x="540" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="461.5" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_18810w3_di" bpmnElement="IntermediateThrowEvent_1sd2ifo">
+        <dc:Bounds x="437" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="416" y="142" width="81" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0fb7530_di" bpmnElement="ServiceTask_0fb7530">
+        <dc:Bounds x="296" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1apgw6r_di" bpmnElement="SequenceFlow_1apgw6r">
+        <di:waypoint x="396" y="120" />
+        <di:waypoint x="437" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="416.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
