@@ -20,6 +20,8 @@ public class MainProcess implements JavaDelegate {
         productList.add(2);
         productList.add(3);
         productList.add(2);
+        productList.add(1);
+        productList.add(4);
 
         execution.setVariable("productList", productList);
     }

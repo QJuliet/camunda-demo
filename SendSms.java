@@ -9,6 +9,8 @@ public class SendSms implements JavaDelegate {
     private final static Logger LOGGER = Logger.getLogger("Start sms process");
 
     public void execute(DelegateExecution execution) throws Exception{
-        LOGGER.info("SMS");
+        Integer product = (Integer) execution.getVariable("product");
+
+        LOGGER.info("SMS for : " + product);
     }
 }

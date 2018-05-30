@@ -14,11 +14,8 @@ public class MainProcessByProduct implements JavaDelegate {
     private final static Logger LOGGER = Logger.getLogger("Start main process by product");
 
     public void execute(DelegateExecution execution) throws Exception{
-        Random randomGenerator = new Random();
-        int dpd = randomGenerator.nextInt(4);
+        Integer product = (Integer) execution.getVariable("product");
 
-        execution.setVariable("day", dpd);
-
-        LOGGER.info("DAY: " + execution.getVariable("day"));
+        LOGGER.info("DAY: " + product);
     }
 }
