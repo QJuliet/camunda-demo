@@ -5,17 +5,12 @@
       <bpmn:outgoing>SequenceFlow_1b6tveo</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:intermediateCatchEvent id="TimerAfterLoad" name="After 15 minutes">
-      <bpmn:incoming>SequenceFlow_099ar3d</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0z2lmbk</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0m2sg8b</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_099ar3d</bpmn:outgoing>
       <bpmn:timerEventDefinition>
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT15M</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:serviceTask id="RefreshMainSubProcessData" name="Refresh data" camunda:delegateExpression="${MainProcessByProductReloadDelegate}">
-      <bpmn:incoming>SequenceFlow_0m2sg8b</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_099ar3d</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:subProcess id="SubProcessDPD3SMS" triggeredByEvent="true">
       <bpmn:endEvent id="EndSMS3">
         <bpmn:incoming>SequenceFlow_1a06bmb</bpmn:incoming>
@@ -38,16 +33,16 @@
       <bpmn:startEvent id="ConditionalDPD3SMS" name="Simplified condition" isInterrupting="false">
         <bpmn:outgoing>SequenceFlow_1bsq3ot</bpmn:outgoing>
         <bpmn:conditionalEventDefinition>
-          <bpmn:condition xsi:type="bpmn:tFormalExpression">${product.getAssignedProductGeneralData().getTotalDueDays()== 3 &amp;&amp; product.getProductCatalog().getProductCatalogType().getSourceIdentifier() == 'LN'}</bpmn:condition>
+          <bpmn:condition xsi:type="bpmn:tFormalExpression">${product==3}</bpmn:condition>
         </bpmn:conditionalEventDefinition>
       </bpmn:startEvent>
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="SequenceFlow_1b6tveo" sourceRef="StartMainSubProcess" targetRef="Task_0j31iao" />
-    <bpmn:sequenceFlow id="SequenceFlow_0m2sg8b" sourceRef="TimerAfterLoad" targetRef="RefreshMainSubProcessData" />
-    <bpmn:sequenceFlow id="SequenceFlow_099ar3d" sourceRef="RefreshMainSubProcessData" targetRef="TimerAfterLoad" />
+    <bpmn:sequenceFlow id="SequenceFlow_099ar3d" sourceRef="TimerAfterLoad" targetRef="Task_0j31iao" />
     <bpmn:sequenceFlow id="SequenceFlow_0z2lmbk" sourceRef="Task_0j31iao" targetRef="TimerAfterLoad" />
-    <bpmn:serviceTask id="Task_0j31iao" name="Initialize this subprocess" camunda:delegateExpression="${MainProcessByProductDelegate}">
+    <bpmn:serviceTask id="Task_0j31iao" name="Initialize this subprocess" camunda:delegateExpression="${MainProcessByProduct}">
       <bpmn:incoming>SequenceFlow_1b6tveo</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_099ar3d</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0z2lmbk</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
@@ -64,9 +59,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="179" y="66" width="68" height="12" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0dqf632_di" bpmnElement="RefreshMainSubProcessData">
-        <dc:Bounds x="320" y="66" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_05lfu2z_di" bpmnElement="SubProcessDPD3SMS" isExpanded="true">
         <dc:Bounds x="455" y="45" width="281" height="122" />
@@ -101,20 +93,13 @@
           <dc:Bounds x="-59" y="85" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0m2sg8b_di" bpmnElement="SequenceFlow_0m2sg8b">
-        <di:waypoint x="230" y="106" />
-        <di:waypoint x="320" y="106" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="275" y="85" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_099ar3d_di" bpmnElement="SequenceFlow_099ar3d">
-        <di:waypoint x="370" y="146" />
-        <di:waypoint x="370" y="185" />
-        <di:waypoint x="212" y="185" />
         <di:waypoint x="212" y="124" />
+        <di:waypoint x="212" y="185" />
+        <di:waypoint x="69" y="185" />
+        <di:waypoint x="69" y="146" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="291" y="164" width="0" height="12" />
+          <dc:Bounds x="95.5" y="164" width="90" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0z2lmbk_di" bpmnElement="SequenceFlow_0z2lmbk">
@@ -130,7 +115,7 @@
       <bpmndi:BPMNShape id="StartEvent_1jbsvfm_di" bpmnElement="ConditionalDPD3SMS">
         <dc:Bounds x="484" y="89" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="479" y="130" width="85" height="36" />
+          <dc:Bounds x="477" y="130" width="50" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
